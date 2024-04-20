@@ -4,10 +4,13 @@ import Board from "./Board";
 
 function App() {
   const [squares, setSquares] = useState(new Array(9).fill(null));
-  const isX = true;
+  const [turn, setTurn] = useState("X");
 
-  const handleClick = (index) => {
-    setSquares(squares.map((square, ix) => (ix === index ? "X" : square)));
+  const handleClick = (index, square) => {
+    if (!square) {
+      setSquares(squares.map((square, ix) => (ix === index ? turn : square)));
+    }
+    setTurn(turn === "X" ? "O" : "X");
   };
 
   // const handleClick = (index) => {

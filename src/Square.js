@@ -9,7 +9,10 @@ const style = {
 };
 const Square = (props) => {
   return (
-    <button style={style} onClick={() => props.onClick(props.index)}>
+    <button
+      style={style}
+      onClick={() => props.onClick(props.index, props.square)}
+    >
       {/* {props.index} */}
       {props.square}
     </button>
