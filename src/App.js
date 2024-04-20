@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import Board from "./Board";
 
 function App() {
+  const [squares, setSquares] = useState(new Array(9).fill(null));
+  const isX = true;
+
+  const handleClick = (index) => {
+    setSquares(squares.map((square, ix) => (ix === index ? "X" : square)));
+  };
+
+  // const handleClick = (index) => {
+  //   setSquares(squares.map((square, ix) => (ix === index ? "X" : square)));
+  // };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Board squares={squares} onClick={handleClick} />
     </div>
   );
 }
