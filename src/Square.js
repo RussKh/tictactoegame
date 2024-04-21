@@ -5,13 +5,16 @@ const style = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  fontSize: "40px",
+  width: "100px",
+  height: "100px",
+  fontSize: "80px",
 };
 const Square = (props) => {
   return (
     <button
       style={style}
-      onClick={() => props.onClick(props.index, props.square)}
+      onClick={() => props.handleMove(props.index)}
+      // onClick={() => props.onClick(props.index, props.square)}
     >
       {/* {props.index} */}
       {props.square}
