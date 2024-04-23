@@ -11,7 +11,7 @@ const boardStyle = {
   margin: "50px auto",
 };
 
-const Board = ({ squares, handleMove }) => {
+const Board = ({ squares, onClick }) => {
   return (
     <div style={boardStyle}>
       {squares.map((square, ix) => (
@@ -19,8 +19,8 @@ const Board = ({ squares, handleMove }) => {
           key={ix}
           index={ix}
           square={square}
-          // onClick={onClick}
-          handleMove={handleMove}
+          onClick={onClick}
+          // handleMove={handleMove}
         />
       ))}
     </div>
