@@ -39,15 +39,17 @@ function App() {
   //     winner = turn === "X" ? "O" : "X";
   // };
   // console.log(winner);
+  let winner = checkWinner();
 
   const handleClick = (index) => {
-    if (!squares[index]) {
-      setSquares(squares.map((square, ix) => (ix === index ? turn : square)));
-      setTurn(turn === "X" ? "O" : "X");
+    if (!winner) {
+      if (!squares[index]) {
+        setSquares(squares.map((square, ix) => (ix === index ? turn : square)));
+        setTurn(turn === "X" ? "O" : "X");
+      }
     }
   };
-  let winner = checkWinner();
-  console.log(winner);
+
   // console.log(checkWinner());
   // checkWinner();
   // useState(null) winner
@@ -72,7 +74,7 @@ function App() {
           // handleMove={handleMove}
           onClick={handleClick}
         />
-        <p>Winner is: {winner[0]}</p>
+        <h1>Winner is: {winner[0]}</h1>
         <div>
           {winner && (
             <button
