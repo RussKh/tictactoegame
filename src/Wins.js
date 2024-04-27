@@ -13,8 +13,10 @@ const Wins = (props) => {
 
   return (
     <>
-      <h3>X won {countedWins.X || 0} times</h3>
-      <h3>O won {countedWins.O || 0} times</h3>
+      <div className="App-header">
+        <h3>X won {countedWins.X || 0} times</h3>
+        <h3>O won {countedWins.O || 0} times</h3>
+      </div>
     </>
   );
 };
