@@ -1,4 +1,5 @@
 import React from "react";
+import "./App.css";
 
 const style = {
   border: "1px solid black",
@@ -8,15 +9,21 @@ const style = {
   width: "100px",
   height: "100px",
   fontSize: "80px",
+  color: "black",
 };
+
+const newStyle = {
+  ...style,
+  color: "black",
+};
+
 const Square = (props) => {
   return (
     <button
+      className={+props.winningColors && "button"}
       style={style}
       onClick={() => props.handleMove(props.index)}
-      // onClick={() => props.onClick(props.index, props.square)}
     >
-      {/* {props.index} */}
       {props.square}
     </button>
   );

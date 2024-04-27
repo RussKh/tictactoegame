@@ -1,5 +1,6 @@
 import React from "react";
 import Square from "./Square";
+import "./App.css";
 
 const boardStyle = {
   display: "grid",
@@ -8,10 +9,10 @@ const boardStyle = {
   borderRadius: "5px",
   width: "300px",
   height: "300px",
-  margin: "50px auto",
+  margin: "20px auto",
 };
 
-const Board = ({ squares, handleMove, winner }) => {
+const Board = ({ squares, handleMove, winner, winningColors }) => {
   return (
     <div className={winner && "blockedBoard"} style={boardStyle}>
       {squares.map((square, ix) => (
@@ -19,8 +20,8 @@ const Board = ({ squares, handleMove, winner }) => {
           key={ix}
           index={ix}
           square={square}
-          // onClick={onClick}
           handleMove={handleMove}
+          winningColors={winningColors[ix]}
         />
       ))}
     </div>
