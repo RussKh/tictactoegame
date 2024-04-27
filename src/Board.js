@@ -11,16 +11,16 @@ const boardStyle = {
   margin: "50px auto",
 };
 
-const Board = ({ squares, onClick }) => {
+const Board = ({ squares, handleMove, winner }) => {
   return (
-    <div style={boardStyle}>
+    <div className={winner && "blockedBoard"} style={boardStyle}>
       {squares.map((square, ix) => (
         <Square
           key={ix}
           index={ix}
           square={square}
-          onClick={onClick}
-          // handleMove={handleMove}
+          // onClick={onClick}
+          handleMove={handleMove}
         />
       ))}
     </div>

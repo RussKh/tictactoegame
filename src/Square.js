@@ -13,8 +13,8 @@ const Square = (props) => {
   return (
     <button
       style={style}
-      // onClick={() => props.handleMove(props.index)}
-      onClick={() => props.onClick(props.index, props.square)}
+      onClick={() => props.handleMove(props.index)}
+      // onClick={() => props.onClick(props.index, props.square)}
     >
       {/* {props.index} */}
       {props.square}

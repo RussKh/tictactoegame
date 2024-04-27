@@ -1,94 +1,66 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Board from "./Board";
-
-const winnigCombinations = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-];
+// import "bootstrap/dist/css/bootstrap.css"
 
 function App() {
-  const [squares, setSquares] = useState(new Array(9).fill(null));
-  const [turn, setTurn] = useState("X");
-  // const [isWinner, setIsWinner] = useState();
-  // const [isXNext, setIsXNext] = useState(true);
-  // let winner =
-  // if (winner.some((x) => x === true)) {
-  // }
+  const [winner, setWinner] = useState(null);
 
-  function checkWinner() {
-    let checkX = turn === "X" ? "O" : "X";
-    let w = winnigCombinations
-      .map((combo) => combo.map((s) => squares[s]).join(""))
-      .find((win) => win === checkX.repeat(3));
-    return w || "";
+  const [squares, setSquares] = useState(new Array(9).fill(null));
+
+  const [isXNext, setIsXNext] = useState(true);
+
+  function handleMove(index) {
+    if (!squares[index]) {
+      const newSquares = [...squares];
+      newSquares[index] = isXNext ? "X" : "O";
+      checkWinner(newSquares);
+      setIsXNext(!isXNext);
+      setSquares(newSquares);
+    }
   }
 
-  // const checkWinner = () => {
-  //   if (
-  //     winnigCombinations.some(
-  //       (combo) => combo.map((s) => squares[s]).join("") === ("XXX" || "OOO")
-  //     )
-  //   )
-  //     winner = turn === "X" ? "O" : "X";
-  // };
-  // console.log(winner);
-  let winner = checkWinner();
-
-  const handleClick = (index) => {
-    if (!winner) {
-      if (!squares[index]) {
-        setSquares(squares.map((square, ix) => (ix === index ? turn : square)));
-        setTurn(turn === "X" ? "O" : "X");
+  function checkWinner() {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      if (
+        squares[lines[i][0]] === squares[lines[i][1]] &&
+        squares[lines[i][1]] === squares[lines[i][2]] &&
+        squares[lines[i][0]]
+      ) {
+        setWinner(squares[lines[i][0]]);
       }
     }
-  };
+  }
 
-  // console.log(checkWinner());
-  // checkWinner();
-  // useState(null) winner
-  // function handleMove(index) {
-  //   if (!squares[index]) {
-  //     const newSquare = [...squares];
-  //     newSquare[index] = isXNext ? "X" : "O";
-  //     setSquares(newSquare);
-  //     setIsXNext(!isXNext);
-  //   }
-  // }
+  function reset() {
+    setSquares(new Array(9).fill(null));
+    setIsXNext(true);
+    setWinner(null);
+  }
 
-  // const handleClick = (index) => {
-  //   setSquares(squares.map((square, ix) => (ix === index ? "X" : square)));
-  // };
+  useEffect(() => {
+    checkWinner();
+  }, [squares]);
 
   return (
-    <>
-      <div className="App">
-        <Board
-          squares={squares}
-          // handleMove={handleMove}
-          onClick={handleClick}
-        />
-        <h1>Winner is: {winner[0]}</h1>
-        <div>
-          {winner && (
-            <button
-              onClick={() => {
-                setSquares(new Array(9).fill(null));
-                setTurn("X");
-              }}
-            >
-              Play Again?
-            </button>
-          )}
-        </div>
-      </div>
-    </>
+    <div className="App">
+      <h1>Tic Tac Toe</h1>
+
+      <Board handleMove={handleMove} squares={squares} winner={winner} />
+      {winner && <h2>Congratulations, {winner}! </h2>}
+
+      {winner && <button onClick={reset}>RESET</button>}
+    </div>
   );
 }
 
