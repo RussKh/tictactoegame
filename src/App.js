@@ -14,6 +14,8 @@ const winningCombos = [
   [2, 4, 6],
 ];
 
+const difficultyLevel = ["easy", "hard", "impossible"];
+
 function App() {
   const [winner, setWinner] = useState(null);
   const [squares, setSquares] = useState(new Array(9).fill(null));
@@ -23,8 +25,18 @@ function App() {
   );
   const [wins, setWins] = useState([]);
   const [isComputerPlaying, setIsComputerPlaying] = useState(false);
+  const [difficulty, setDifficulty] = useState(difficultyLevel[0]);
 
   let turnCount = squares.filter((square) => square).length;
+
+  function handleDifficulty() {
+    let i = difficultyLevel.findIndex((level) => level === difficulty);
+    setDifficulty(difficultyLevel[(i + 1) % 3]);
+  }
+  function handleComputerPlaying() {
+    setIsComputerPlaying(!isComputerPlaying);
+    setWins([]);
+  }
 
   useEffect(() => {
     if (!isXNext && !winner && isComputerPlaying && turnCount < 9) {
@@ -45,43 +57,62 @@ function App() {
   }
 
   function computerMove() {
+    function fiftyFiftyChance() {
+      return Math.random() < 0.7;
+    }
+
     // if center is vacant, use it as the first move
-    if (!squares[4]) {
+    if (!squares[4] && difficulty === "impossible") {
       handleMove(4);
       return; // Exit the function after making a move
     }
 
     // If O is close to winning, finish it
-    for (let combo of winningCombos) {
-      if (combo.filter((el) => squares[el] === "O").length === 2) {
-        let ix = combo.find((x) => squares[x] !== "O");
-        if (!squares[ix]) {
+    if (
+      difficulty === "impossible" ||
+      (difficulty === "hard" && fiftyFiftyChance())
+    )
+      for (let combo of winningCombos) {
+        if (combo.filter((el) => squares[el] === "O").length === 2) {
+          let ix = combo.find((x) => squares[x] !== "O");
+          if (!squares[ix]) {
+            // Check if the position is vacant before making a move
+            handleMove(ix);
+            return; // Exit the function after making a move
+          }
+        }
+      }
+
+    // // If X is close to winning, block it
+    if (
+      difficulty === "impossible" ||
+      (difficulty === "hard" && fiftyFiftyChance())
+    )
+      for (let combo of winningCombos) {
+        if (combo.filter((el) => squares[el] === "X").length === 2) {
+          let ix = combo.find((x) => squares[x] !== "X");
+          if (!squares[ix]) {
+            // Check if the position is vacant before making a move
+            handleMove(ix);
+            return; // Exit the function after making a move
+          }
+        }
+      }
+
+    // Put O in corner with 30% chance
+    if (fiftyFiftyChance()) {
+      for (let corner of [0, 2, 6, 8]) {
+        if (!squares[corner]) {
           // Check if the position is vacant before making a move
-          handleMove(ix);
+          handleMove(corner);
           return; // Exit the function after making a move
         }
       }
     }
 
-    // If X is close to winning, block it
-    for (let combo of winningCombos) {
-      if (combo.filter((el) => squares[el] === "X").length === 2) {
-        let ix = combo.find((x) => squares[x] !== "X");
-        if (!squares[ix]) {
-          // Check if the position is vacant before making a move
-          handleMove(ix);
-          return; // Exit the function after making a move
-        }
-      }
-    }
-
-    // If no winning combinations are found, use any vacant corner
-    for (let corner of [0, 2, 6, 8]) {
-      if (!squares[corner]) {
-        // Check if the position is vacant before making a move
-        handleMove(corner);
-        return; // Exit the function after making a move
-      }
+    // all else put O in any available square
+    for (let i = 0; i < squares.length; i++) {
+      if (!squares[i]) handleMove(i);
     }
   }
 
@@ -123,21 +154,21 @@ function App() {
     <div className="App">
       <div className="App App-header">
         <div>Tic Tac Toe</div>
-        <button
-          className="emoji-button"
-          onClick={() => setIsComputerPlaying(!isComputerPlaying)}
-        >
+        <button className="emoji-button" onClick={handleComputerPlaying}>
           {isComputerPlaying ? "🤖" : "👨‍🦰"}
         </button>
       </div>
-
+      {isComputerPlaying && (
+        <button className="level" onClick={handleDifficulty}>
+          Level: {difficulty}
+        </button>
+      )}
       <Board
         handleMove={handleMove}
         squares={squares}
         winner={winner}
         winningColors={winningColors}
       />
-      {/* {turnCount < 9 ? winner && <h2>{winner} won!</h2> : <h2>DRAW!</h2>} */}
 
       <div className="App App-footer">
         <Wins wins={wins} />
