@@ -1,7 +1,5 @@
 import React from "react";
 
-// const testArray = ["X", "O", "X"];
-
 const Wins = (props) => {
   const countedWins = props.wins.reduce((allTurns, turn) => {
     const currCount = Object.hasOwn(allTurns, turn) ? allTurns[turn] : 0;
@@ -13,9 +11,14 @@ const Wins = (props) => {
 
   return (
     <>
-      <div className="App-header">
-        <h3>X won {countedWins.X || 0} times</h3>
-        <h3>O won {countedWins.O || 0} times</h3>
+      <div>
+        <div>
+          X won <span style={{ color: "red" }}>{countedWins.X || 0} </span>{" "}
+          times
+        </div>
+        <div>
+          O won <span style={{ color: "red" }}>{countedWins.O || 0}</span> times
+        </div>
       </div>
     </>
   );

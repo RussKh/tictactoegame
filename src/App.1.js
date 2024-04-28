@@ -1,25 +1,28 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Board from "./Board";
-import Wins from "./Wins";
 
-export function App() {
+function App() {
   const [winner, setWinner] = useState(null);
   const [squares, setSquares] = useState(new Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
   const [winningColors, setWinningColors] = useState(new Array(9).fill(null));
   const [wins, setWins] = useState([]);
 
+  useEffect(() => {
+    if (!isXNext && !winner) {
+      computerMove();
+    }
+  }, [isXNext, winner]);
+
   function handleMove(index) {
-    if (!squares[index]) {
+    if (!squares[index] && !winner) {
       const newSquares = [...squares];
       newSquares[index] = isXNext ? "X" : "O";
+      setSquares(newSquares);
       checkWinner(newSquares);
       setIsXNext(!isXNext);
-      setSquares(newSquares);
     }
   }
-
-  if (!isXNext && !winner) computerMove();
 
   function computerMove() {
     let i = Math.floor(Math.random() * 10) % 9;
@@ -27,7 +30,7 @@ export function App() {
     else computerMove();
   }
 
-  function checkWinner() {
+  function checkWinner(newSquares) {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -40,18 +43,21 @@ export function App() {
     ];
 
     for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
       if (
-        squares[lines[i][0]] === squares[lines[i][1]] &&
-        squares[lines[i][1]] === squares[lines[i][2]] &&
-        squares[lines[i][0]]
+        newSquares[a] &&
+        newSquares[a] === newSquares[b] &&
+        newSquares[a] === newSquares[c]
       ) {
-        setWinner(squares[lines[i][0]]);
-        setWinningColors(
-          winningColors.map((_, ix) =>
-            ix === lines[i].find((x) => x === ix) ? true : false
+        setWinner(newSquares[a]);
+        setWinningColors([...Array(9).fill(false)]);
+        setWinningColors((prevColors) =>
+          prevColors.map((_, index) =>
+            lines[i].includes(index) ? true : false
           )
         );
-        setWins([...wins, squares[lines[i][0]]]);
+        setWins([...wins, newSquares[a]]);
+        return;
       }
     }
   }
@@ -63,15 +69,9 @@ export function App() {
     setWinningColors(new Array(9).fill(null));
   }
 
-  useEffect(() => {
-    checkWinner();
-  }, [squares]);
-
   return (
     <div className="App">
       <h1>Tic Tac Toe</h1>
-
-      <button onClick={computerMove}>Random Move</button>
 
       <Board
         handleMove={handleMove}
@@ -88,7 +88,9 @@ export function App() {
         </button>
       )}
 
-      <Wins wins={wins} />
+      <div>Computer is playing: {!isXNext && !winner && <span>Yes</span>}</div>
     </div>
   );
 }
+
+export default App;

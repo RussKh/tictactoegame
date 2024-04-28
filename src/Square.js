@@ -20,8 +20,9 @@ const newStyle = {
 const Square = (props) => {
   return (
     <button
-      className={+props.winningColors && "button"}
-      style={style}
+      // className={+props.winningColors && "button"}
+      className={props.winningColors}
+      style={newStyle}
       onClick={() => props.handleMove(props.index)}
     >
       {props.square}

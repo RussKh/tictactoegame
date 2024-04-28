@@ -9,7 +9,6 @@ const boardStyle = {
   borderRadius: "5px",
   width: "300px",
   height: "300px",
-  margin: "20px auto",
 };
 
 const Board = ({ squares, handleMove, winner, winningColors }) => {
