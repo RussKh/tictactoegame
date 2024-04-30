@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/tictactoegame/static/css/main.996060f0.css",
-    "main.js": "/tictactoegame/static/js/main.2c1da95f.js",
+    "main.js": "/tictactoegame/static/js/main.ae8cbc76.js",
     "static/js/453.7fa2c8aa.chunk.js": "/tictactoegame/static/js/453.7fa2c8aa.chunk.js",
     "index.html": "/tictactoegame/index.html",
     "main.996060f0.css.map": "/tictactoegame/static/css/main.996060f0.css.map",
-    "main.2c1da95f.js.map": "/tictactoegame/static/js/main.2c1da95f.js.map",
+    "main.ae8cbc76.js.map": "/tictactoegame/static/js/main.ae8cbc76.js.map",
     "453.7fa2c8aa.chunk.js.map": "/tictactoegame/static/js/453.7fa2c8aa.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.996060f0.css",
-    "static/js/main.2c1da95f.js"
+    "static/js/main.ae8cbc76.js"
   ]
 }
