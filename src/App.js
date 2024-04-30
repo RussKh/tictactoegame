@@ -72,7 +72,7 @@ function App() {
   function computerMove() {
     // If O is close to winning, finish it
     let probability =
-      difficulty === "easy" ? 0.2 : difficulty === "hard" ? 0.7 : 1;
+      difficulty === "easy" ? 0.5 : difficulty === "hard" ? 0.8 : 1;
 
     console.log(probability);
 
